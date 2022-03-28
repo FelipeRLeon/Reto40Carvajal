@@ -16,7 +16,7 @@ CREATE TABLE admin (
 
 CREATE TABLE product (
     id_p SERIAL PRIMARY KEY,
-    p_name TEXT NOT NULL,
+    p_name TEXT NOT NULL UNIQUE,
     p_price BIGINT NOT NULL,
     p_amount INT NOT NULL,
     p_info TEXT NOT NULL,

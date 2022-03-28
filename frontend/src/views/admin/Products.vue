@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <NavBarAdm :a_name="admin.name"/>
     <v-alert text v-model="alert.show" :type="alert.type" dismissible>{{
       alert.message
     }}</v-alert>
@@ -138,7 +139,9 @@
 </template>
 
 <script>
+import NavBarAdm from '@/components/NavBarAdm'
 export default {
+  
   data: () => ({
     alert: { show: false },
     admin: {},
@@ -205,7 +208,7 @@ export default {
             message: res.data.message,
           };
         } catch (error) {
-            console.log(error);
+            console.log(error.response);
         }
       }
       console.log("Edited");
@@ -240,5 +243,8 @@ export default {
       }
     }
   },
+  components: {
+    NavBarAdm
+  }
 };
 </script>

@@ -1,5 +1,6 @@
 <template>
     <v-container>
+        <NavBarAdm v-if="user.role=='admin'" :a_name="user.name"/>
         <v-row justify="center">
             <v-col md="6" sm="6">
                 <v-card>
@@ -15,6 +16,7 @@
 </template>
 
 <script>
+import NavBarAdm from '@/components/NavBarAdm';
 export default {
     data: () => ({
         user: { role: "", name: "", email: ""}
@@ -24,7 +26,10 @@ export default {
         if (this.user == null) {
             this.$router.push('/');
         }
-    }
+    },
+  components: {
+    NavBarAdm
+  }
     
 }
 </script>
