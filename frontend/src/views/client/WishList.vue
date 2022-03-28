@@ -13,11 +13,14 @@
                 <v-toolbar-title>Wish List</v-toolbar-title>
               </v-toolbar>
             </template>
+            <template #[`item.actions`]="{ item }">
 
-            
+              <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
+            </template>
           </v-data-table>
         </v-col>
       </v-row>
+      
     </v-container>
   </v-container>
 </template>
@@ -30,16 +33,12 @@ export default {
     cart: [],
     productsList: {},
     headers: [
-        {
-          text: 'Name',
-          align: 'start',
-          sortable: false,
-          value: 'p_name',
-        },
-        { text: 'Category', value: 'p_category' },
-        { text: 'Price', value: 'p_price' },
-        { text: 'Stock', value: 'p_amount' }
-      ],
+      { text: "Name", align: "start", value: "p_name" },
+      { text: "Category", value: "p_category" },
+      { text: "Price", value: "p_price" },
+      { text: "Stock", value: "p_amount" },
+      { text: "Remove", value: "remove", sortable: false },
+    ],
   }),
   created: async function () {
     if (JSON.parse(sessionStorage.getItem("shopcart"))) {

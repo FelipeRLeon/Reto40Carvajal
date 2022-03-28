@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <NavBarClient :c_name="client.name"/>
-    <h1 class="font-weight-light">All courses</h1>
+    <h1 class="font-weight-light">Products</h1>
     <v-row justify="center">
       <v-card class="ma-3" max-width="344" v-for="product in productsList" :key="product.id_p">
         <v-img

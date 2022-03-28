@@ -2,9 +2,9 @@
     <v-container>
         <NavBarAdm v-if="user.role=='admin'" :a_name="user.name"/>
         <NavBarClient v-if="user.role=='client'" :c_name="user.name"/>
-        <v-row justify="center">
+        <v-row justify="left">
             <v-col md="6" sm="6">
-                <v-card>
+                <v-card class="mt-6">
                     <v-card-title class="text-uppercase">{{user.role}}</v-card-title>
                     <v-card-text>
                         <h2>{{user.name}}</h2>
