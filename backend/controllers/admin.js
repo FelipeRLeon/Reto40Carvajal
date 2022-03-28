@@ -13,10 +13,18 @@ administrator.createProduct = async (req, res) => {
         });
 
     } catch(error){
-        res.status(500).json({
-            message: 'An error has ocurred',
-            error
-        });
+        if (error.constraint == 'product_p_name_key') {
+            res.status(500).json({
+                message: 'This product already exists',
+                error
+            });
+
+        } else {
+            res.status(500).json({
+                message: 'An error has ocurred',
+                error
+            })
+        }
     }
 };
 

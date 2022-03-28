@@ -1,5 +1,6 @@
 <template>
   <v-container>
+      <v-alert text v-model="alert.show" :type="alert.type" dismissible>{{alert.message}}</v-alert>
     <h1>Products</h1>
     <v-row justify="center">
       <v-card class="ma-3" max-width="344" v-for="product in productsList" :key="product.id_p">
@@ -32,8 +33,7 @@
         </v-expand-transition>
       </v-card>
     </v-row>
-
-    <v-dialog v-model="add">
+    <v-dialog v-model="add" max-width="450" class="ma-3">
         <v-card>
             <v-card-title>Add a product</v-card-title>
             <v-card-text>
@@ -86,6 +86,7 @@
 <script>
 export default {
   data: () => ({
+    alert: {show: false},
     admin: {},
     productsList: [],
     productToAdd: {p_img: "xxx"},
@@ -98,11 +99,23 @@ export default {
           let valid = this.$refs.addForm.validate();
           if (valid) {
               try {
-                  console.log(this.productToAdd);
                   const res = await this.axios.post('/admin/createproduct', this.productToAdd);
-                  console.log(res.data);
+                  this.productsList.push(res.data.product);
+                  this.$refs.addForm.reset();
+                  this.add=false;
+                  this.alert = {
+                    show: true,
+                    type: 'success',
+                    message: res.data.message
+                }
+
               } catch (error) {
-                  console.log(error);
+                  this.alert = {
+                    show: true,
+                    type: 'error',
+                    message: error.response.data.message
+                }
+                console.log(error.response.data.message);
               }
 
           }
