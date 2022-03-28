@@ -1,12 +1,15 @@
 <template>
 <v-container>
+  <v-app-bar app color="secondary" dark>
+    <v-toolbar-title>Black Bull Temple</v-toolbar-title>
+  </v-app-bar>
 <v-alert text v-model="alert.show" :type="alert.type" dismissible>{{alert.message}}</v-alert>
   <v-row justify="center" >
-    <v-col class="text-center" md="2" sm="2" @click="suForm=true">
-      <v-btn class="primary">sign up</v-btn>
+    <v-col class="text-center" md="2" sm="2">
+      <v-btn class="primary" @click="suForm=true">sign up</v-btn>
     </v-col>
-    <v-col class="text-center" md="2" sm="2" @click="suForm=false">
-      <v-btn class="success">sign in</v-btn>
+    <v-col class="text-center" md="2" sm="2">
+      <v-btn class="success" @click="suForm=false">sign in</v-btn>
     </v-col>
   </v-row>
   <v-row justify="center">
@@ -121,11 +124,33 @@ export default {
             type: 'error',
             message: error.response.data.message
           }
-          
         }
-
       }
-
+    },
+    async signin() {
+      let valid = this.$refs.signinForm.validate();
+      if (valid) {
+        try {
+          const res = await this.axios.post('/signin', this.user);
+          if (res.data.NotFound) {
+            this.alert = {
+              show: true,
+              type: 'error',
+              message: res.data.message
+            }
+          } else {
+            sessionStorage.setItem("session", JSON.stringify(res.data));
+            this.$router.push('/profile')
+          }
+          
+        } catch (error) {
+          this.alert = {
+            show: true,
+            type: 'error',
+            message: error.response.data.message
+          }
+        }
+      }
     }
   }
 };
