@@ -16,7 +16,7 @@
           <div>Stock: {{ product.p_amount }} units</div>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="purple" dark @click="addToCart(product.id_p)">Add to cart</v-btn>
+          <v-btn color="purple" dark @click="addToCart(product)">Add to cart</v-btn>
           <v-spacer></v-spacer>
           <v-btn icon @click="show = !show">
             <v-icon>{{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}</v-icon>
@@ -42,11 +42,42 @@ export default {
   data: () => ({
     client: {},
     productsList: {},
+    cart: [],
     show: false,
   }),
   methods: {
-      addToCart(id_p) {
+      addToCart(product) {
+            let cart = [];
+            if (JSON.parse(sessionStorage.getItem('shopcart'))){
+                  cart = JSON.parse(sessionStorage.getItem('shopcart'))
+              } else {
+                  cart =[]
+              }
+              //console.log(cart[0].id_p);
+              //console.log(cart);
+              //console.log(cart.length);
           try {
+            let counter = 0;
+              if(cart.length>0){
+                for (let index = 0; index < cart.length; index++) {
+                  if (cart[index].id_p == product.id_p){
+                    counter++;
+                  }
+                }
+                if (counter==0){
+                  cart.push(product);
+                }
+              } else {
+                cart.push(product);
+              }
+               
+              /*for (let index = 0; index < this.cart.length; index++) {
+                if (this.cart[index].id_p==product.id_p) {
+                    this.cart.splice(index, 1);
+                }
+              }*/
+              //cart.push(product);
+              sessionStorage.setItem('shopcart', JSON.stringify(cart))
               console.log('ok');
           } catch (error) {
               console.log(error);

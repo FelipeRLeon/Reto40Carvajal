@@ -24,6 +24,12 @@ const routes = [
     name: 'Client products',
     component: () => import(/* webpackChunkName: "about" */ '../views/client/Products.vue')
   }
+  ,
+  {
+    path: '/client/wishlist',
+    name: 'Client wishlist',
+    component: () => import(/* webpackChunkName: "about" */ '../views/client/WishList.vue')
+  }
 ]
 
 const router = new VueRouter({

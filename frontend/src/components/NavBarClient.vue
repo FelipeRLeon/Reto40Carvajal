@@ -4,6 +4,7 @@
             <v-toolbar-title>Black Bull Temple</v-toolbar-title>
             <v-spacer/>
             <v-btn text to="/client/products">Shop</v-btn>
+            <v-btn to="/client/wishlist"><v-icon>mdi-cart</v-icon></v-btn>
             <v-menu offset-y>
                 <template v-slot:activator="{ attrs, on}">
                     <v-btn text v-bind="attrs" v-on="on">{{c_name}}</v-btn>
@@ -21,6 +22,7 @@
 export default {
     methods: {
         SignOut() {
+            localStorage.clear();
             sessionStorage.clear();
             this.$router.push("/");
         }

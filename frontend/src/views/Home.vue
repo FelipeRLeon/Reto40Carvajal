@@ -103,6 +103,7 @@ export default {
       value => (value && value.length>=2 || 'Name must be more than 2 characters' )
     ],
     user: {name: '', email: '', password: '', role: ''},
+    cart: [],
     suForm: true
   }),
   methods: {
@@ -140,6 +141,7 @@ export default {
             }
           } else {
             sessionStorage.setItem("session", JSON.stringify(res.data));
+            sessionStorage.setItem("shopcart", JSON.stringify(this.cart));
             this.$router.push('/profile')
           }
           
