@@ -1,6 +1,7 @@
 <template>
     <v-container>
         <NavBarAdm v-if="user.role=='admin'" :a_name="user.name"/>
+        <NavBarClient v-if="user.role=='client'" :c_name="user.name"/>
         <v-row justify="center">
             <v-col md="6" sm="6">
                 <v-card>
@@ -17,6 +18,7 @@
 
 <script>
 import NavBarAdm from '@/components/NavBarAdm';
+import NavBarClient from '@/components/NavBarClient';
 export default {
     data: () => ({
         user: { role: "", name: "", email: ""}
@@ -28,7 +30,8 @@ export default {
         }
     },
   components: {
-    NavBarAdm
+    NavBarAdm,
+    NavBarClient
   }
     
 }

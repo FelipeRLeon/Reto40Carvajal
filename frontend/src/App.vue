@@ -6,7 +6,7 @@
     </v-main>
   </v-app>
 </template>
-s
+
 <script>
 
 export default {

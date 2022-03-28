@@ -18,6 +18,7 @@ app.use(fileupload({useTempFiles: true}));
 //Routes
 app.use('/', require('./routes/auth.routes'));
 app.use('/admin', require('./routes/admin.routes'));
+app.use('/client', require('./routes/client.routes'));
 
 //Middlewares for Vue
 app.use(history());

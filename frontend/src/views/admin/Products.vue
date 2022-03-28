@@ -4,7 +4,7 @@
     <v-alert text v-model="alert.show" :type="alert.type" dismissible>{{
       alert.message
     }}</v-alert>
-    <h1>Products</h1>
+    <h1 class="font-weight-light">Products</h1>
     <v-row justify="center">
       <v-card
         class="ma-3"
@@ -139,7 +139,7 @@
 </template>
 
 <script>
-import NavBarAdm from '@/components/NavBarAdm'
+import NavBarAdm from '@/components/NavBarAdm';
 export default {
   
   data: () => ({
