@@ -32,6 +32,46 @@
         </v-expand-transition>
       </v-card>
     </v-row>
+
+    <v-dialog v-model="add">
+        <v-card>
+            <v-card-title>Add a product</v-card-title>
+            <v-card-text>
+                <v-form ref="addForm" @submit.prevent="addProduct()">
+                    <v-text-field
+                    prepend-icon = "mdi-biohazard"
+                    label="Name"
+                    :rules="[(v) => !!v || 'Name is required']"
+                    ></v-text-field>
+                    <v-text-field
+                    prepend-icon = "mdi-biohazard"
+                    label="Price"
+                    :rules="[(v) => !!v || 'Price is required']"
+                    ></v-text-field>
+                    <v-text-field
+                    prepend-icon = "mdi-biohazard"
+                    label="Amount"
+                    :rules="[(v) => !!v || 'Amount is required']"
+                    ></v-text-field>
+                    <v-textarea
+                    prepend-icon = "mdi-bike"
+                    label="Info"
+                    :rules="[(v) => !!v || 'Info is required']"
+                    ></v-textarea>
+                    <v-text-field
+                    prepend-icon = "mdi-biohazard"
+                    label="Category"
+                    :rules="[(v) => !!v || 'Category is required']"
+                    ></v-text-field>
+                    <v-btn block class="success mt-3" type="submit">add</v-btn>
+                </v-form>
+            </v-card-text>
+        </v-card>
+    </v-dialog>
+
+    <v-btn @click="add=true" color="blue" large right fixed bottom fab dark>
+        <v-icon>mdi-plus</v-icon>
+    </v-btn>
   </v-container>
 </template>
 
@@ -40,8 +80,20 @@ export default {
   data: () => ({
     admin: {},
     productsList: [],
+    productToAdd: {},
+    add: false,
     show: false
   }),
+  methods:{
+      async addProduct() {
+          this.add=true;
+          let valid = this.$refs.addForm.validate();
+          if (valid) {
+              console.log("Added");
+          }
+      }
+
+  },
   created: async function () {
     this.admin = JSON.parse(sessionStorage.getItem("session"));
     if (this.admin == null) {
