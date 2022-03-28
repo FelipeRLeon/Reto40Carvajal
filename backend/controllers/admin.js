@@ -8,20 +8,20 @@ administrator.createProduct = async (req, res) => {
     try {
         await pool.query('INSERT INTO product (p_name, p_price, p_amount, p_info, p_img, p_category) VALUES ($1, $2, $3, $4, $5, $6)', [p_name, p_price, p_amount, p_info, p_img, p_category]);
         res.status(200).json({
-            message: 'Successful added product',
+            message: 'Successful added product.',
             product: {p_name, p_price, p_amount, p_info, p_img, p_category}
         });
 
     } catch(error){
         if (error.constraint == 'product_p_name_key') {
             res.status(500).json({
-                message: 'This product already exists',
+                message: 'This product already exists.',
                 error
             });
 
         } else {
             res.status(500).json({
-                message: 'An error has ocurred',
+                message: 'An error has ocurred.',
                 error
             })
         }
@@ -32,7 +32,6 @@ administrator.readProduct = async (req, res) => {
     const id = req.params.id_p;
     try {
         const product = await (await pool.query('SELECT * FROM product WHERE id_p=$1', [id])).rows;
-        console.log(product);
         res.status(200).json({product});
     } catch (error) {
         res.status(500).json({
@@ -50,7 +49,7 @@ administrator.updateProduct = async (req, res) => {
     try {
         await pool.query('UPDATE product SET p_name =$1, p_price=$2, p_amount=$3, p_info=$4, p_img=$5, p_category=$6 WHERE id_p=$7', [p_name, p_price, p_amount, p_info, p_img, p_category, id])
         res.status(200).json({
-            message: 'Successful edited product'
+            message: 'Successful edited product.'
         })
     } catch (error) {
         res.status(500).json({
@@ -69,7 +68,7 @@ administrator.deleteProduct = async (req, res) => {
     try {
         await pool.query('DELETE FROM product WHERE id_p=$1', [id]);
         res.status(200).json({
-            message: 'Successful deleted product'
+            message: 'Successful deleted product.'
         })
     } catch (error) {
         res.status(500).json({

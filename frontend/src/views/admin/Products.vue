@@ -1,84 +1,138 @@
 <template>
   <v-container>
-      <v-alert text v-model="alert.show" :type="alert.type" dismissible>{{alert.message}}</v-alert>
+    <v-alert text v-model="alert.show" :type="alert.type" dismissible>{{
+      alert.message
+    }}</v-alert>
     <h1>Products</h1>
     <v-row justify="center">
-      <v-card class="ma-3" max-width="344" v-for="product in productsList" :key="product.id_p">
+      <v-card
+        class="ma-3"
+        max-width="344"
+        v-for="product in productsList"
+        :key="product.id_p"
+      >
         <v-img
           src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
           height="200px"
         ></v-img>
-        <v-card-title>{{product.p_name}}</v-card-title>
-        <v-card-subtitle>{{product.p_category}}</v-card-subtitle>
+        <v-card-title>{{ product.p_name }}</v-card-title>
+        <v-card-subtitle>{{ product.p_category }}</v-card-subtitle>
         <v-card-text>
-                <div >Price: ${{product.p_price}}</div>
-                <div>Stock: {{product.p_amount}} units</div>
+          <div>Price: ${{ product.p_price }}</div>
+          <div>Stock: {{ product.p_amount }} units</div>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="blue" small dark><v-icon>mdi-pencil</v-icon></v-btn>
-          <v-btn color="red" small dark><v-icon>mdi-delete</v-icon></v-btn>
+          <v-btn color="blue" small dark @click="readProduct(product.id_p)"
+            ><v-icon>mdi-pencil</v-icon></v-btn
+          >
+          <v-btn color="red" small dark @click="deleteProduct(product.id_p)"
+            ><v-icon>mdi-delete</v-icon></v-btn
+          >
           <v-spacer></v-spacer>
           <v-btn icon @click="show = !show">
-            <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+            <v-icon>{{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}</v-icon>
           </v-btn>
         </v-card-actions>
         <v-expand-transition>
-            <div v-show="show">
-                <v-divider></v-divider>
-                <v-card-text>
-                    <div>Information</div>
-                    <div>{{product.p_info}}</div>
-                </v-card-text>
-            </div>
+          <div v-show="show">
+            <v-divider></v-divider>
+            <v-card-text>
+              <div>Information</div>
+              <div>{{ product.p_info }}</div>
+            </v-card-text>
+          </div>
         </v-expand-transition>
       </v-card>
     </v-row>
-    <v-dialog v-model="add" max-width="450" class="ma-3">
-        <v-card>
-            <v-card-title>Add a product</v-card-title>
-            <v-card-text>
-                <v-form ref="addForm" @submit.prevent="addProduct()">
-                    <v-text-field
-                    prepend-icon = "mdi-star-circle"
-                    label="Name"
-                    :rules="[(v) => !!v || 'Name is required']"
-                    v-model="productToAdd.p_name"
-                    ></v-text-field>
-                    <v-text-field
-                    prepend-icon = "mdi-shape"
-                    label="Category"
-                    :rules="[(v) => !!v || 'Category is required']"
-                    v-model="productToAdd.p_category"
-                    ></v-text-field>
-                    <v-text-field
-                    prepend-icon = "mdi-cash"
-                    label="Price"
-                    type="number"
-                    :rules="[(v) => !!v || 'Price is required']"
-                    v-model="productToAdd.p_price"
-                    ></v-text-field>
-                    <v-text-field
-                    prepend-icon = "mdi-abacus"
-                    label="Amount"
-                    type="number"
-                    :rules="[(v) => !!v || 'Amount is required']"
-                    v-model="productToAdd.p_amount"
-                    ></v-text-field>
-                    <v-textarea
-                    prepend-icon = "mdi-information"
-                    label="Information"
-                    :rules="[(v) => !!v || 'Info is required']"
-                    v-model="productToAdd.p_info"
-                    ></v-textarea>
-                    
-                    <v-btn block class="success mt-3" type="submit">add</v-btn>
-                </v-form>
-            </v-card-text>
-        </v-card>
+    <v-dialog v-model="add" max-width="450">
+      <v-card>
+        <v-card-title>Add a product</v-card-title>
+        <v-card-text>
+          <v-form ref="addForm" @submit.prevent="addProduct()" class="ma-3">
+            <v-text-field
+              prepend-icon="mdi-star-circle"
+              label="Name"
+              :rules="[(v) => !!v || 'Name is required']"
+              v-model="productToAdd.p_name"
+            ></v-text-field>
+            <v-text-field
+              prepend-icon="mdi-shape"
+              label="Category"
+              :rules="[(v) => !!v || 'Category is required']"
+              v-model="productToAdd.p_category"
+            ></v-text-field>
+            <v-text-field
+              prepend-icon="mdi-cash"
+              label="Price"
+              type="number"
+              :rules="[(v) => !!v || 'Price is required']"
+              v-model="productToAdd.p_price"
+            ></v-text-field>
+            <v-text-field
+              prepend-icon="mdi-abacus"
+              label="Amount"
+              type="number"
+              :rules="[(v) => !!v || 'Amount is required']"
+              v-model="productToAdd.p_amount"
+            ></v-text-field>
+            <v-textarea
+              prepend-icon="mdi-information"
+              label="Information"
+              :rules="[(v) => !!v || 'Info is required']"
+              v-model="productToAdd.p_info"
+            ></v-textarea>
+
+            <v-btn block class="success mt-3" type="submit">add</v-btn>
+          </v-form>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="edit" max-width="450">
+      <v-card>
+        <v-card-title>Update a product</v-card-title>
+        <v-card-text>
+          <v-form ref="editForm" @submit.prevent="editProduct()" class="ma-3">
+            <v-text-field
+              prepend-icon="mdi-star-circle"
+              label="Name"
+              :rules="[(v) => !!v || 'Name is required']"
+              v-model="productToEdit.p_name"
+            ></v-text-field>
+            <v-text-field
+              prepend-icon="mdi-shape"
+              label="Category"
+              :rules="[(v) => !!v || 'Category is required']"
+              v-model="productToEdit.p_category"
+            ></v-text-field>
+            <v-text-field
+              prepend-icon="mdi-cash"
+              label="Price"
+              type="number"
+              :rules="[(v) => !!v || 'Price is required']"
+              v-model="productToEdit.p_price"
+            ></v-text-field>
+            <v-text-field
+              prepend-icon="mdi-abacus"
+              label="Amount"
+              type="number"
+              :rules="[(v) => !!v || 'Amount is required']"
+              v-model="productToEdit.p_amount"
+            ></v-text-field>
+            <v-textarea
+              prepend-icon="mdi-information"
+              label="Information"
+              :rules="[(v) => !!v || 'Info is required']"
+              v-model="productToEdit.p_info"
+            ></v-textarea>
+
+            <v-btn block class="info mt-3" type="submit">update</v-btn>
+          </v-form>
+        </v-card-text>
+      </v-card>
     </v-dialog>
 
-    <v-btn @click="add=true" color="blue" large right fixed bottom fab dark>
-        <v-icon>mdi-plus</v-icon>
+    <v-btn @click="add = true" color="blue" large right fixed bottom fab dark>
+      <v-icon>mdi-plus</v-icon>
     </v-btn>
   </v-container>
 </template>
@@ -86,41 +140,90 @@
 <script>
 export default {
   data: () => ({
-    alert: {show: false},
+    alert: { show: false },
     admin: {},
     productsList: [],
-    productToAdd: {p_img: "xxx"},
+    productToAdd: { p_img: "xxx" },
+    productToEdit: {},
     add: false,
-    show: false
+    edit: false,
+    show: false,
   }),
-  methods:{
-      async addProduct() {
-          this.add=true;
-          let valid = this.$refs.addForm.validate();
-          if (valid) {
-              try {
-                  const res = await this.axios.post('/admin/createproduct', this.productToAdd);
-                  this.productsList.push(res.data.product);
-                  this.$refs.addForm.reset();
-                  this.add=false;
-                  this.alert = {
-                    show: true,
-                    type: 'success',
-                    message: res.data.message
-                }
-
-              } catch (error) {
-                  this.alert = {
-                    show: true,
-                    type: 'error',
-                    message: error.response.data.message
-                }
-                console.log(error.response.data.message);
-              }
-
-          }
+  methods: {
+    async addProduct() {
+      this.add = true;
+      let valid = this.$refs.addForm.validate();
+      if (valid) {
+        try {
+          const res = await this.axios.post(
+            "/admin/createproduct",
+            this.productToAdd
+          );
+          this.productsList.push(res.data.product);
+          this.$refs.addForm.reset();
+          this.add = false;
+          this.alert = {
+            show: true,
+            type: "success",
+            message: res.data.message,
+          };
+        } catch (error) {
+          this.alert = {
+            show: true,
+            type: "error",
+            message: error.response.data.message,
+          };
+          console.log(error.response.data.message);
+        }
       }
-
+    },
+    async readProduct(id_p) {
+      try {
+        const res = await this.axios.get(`/admin/product/${id_p}`);
+        this.productToEdit = res.data.product[0];
+        this.edit = true;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async editProduct() {
+      let valid = this.$refs.editForm.validate();
+      if (valid) {
+        try {
+          const res = await this.axios.put(
+            `/admin/product/${this.productToEdit.id_p}`,
+            this.productToEdit
+          );
+          const index = this.productsList.findIndex(
+            (p) => p.id_p == this.productToEdit.id_p
+          );
+          this.productsList[index] = this.productToEdit;
+          this.edit = false;
+          this.alert = {
+            show: true,
+            type: "success",
+            message: res.data.message,
+          };
+        } catch (error) {
+            console.log(error);
+        }
+      }
+      console.log("Edited");
+    },
+    async deleteProduct(id_p) {
+      try {
+        const res = await this.axios.delete(`/admin/product/${id_p}`);
+        const index = this.productsList.findIndex((p) => p.id_p == id_p);
+        this.productsList.splice(index, 1);
+        this.alert = {
+          show: true,
+          type: "info",
+          message: res.data.message,
+        };
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
   created: async function () {
     this.admin = JSON.parse(sessionStorage.getItem("session"));
@@ -130,13 +233,12 @@ export default {
       this.$router.push("/profile");
     } else {
       try {
-        const res = await this.axios.get('/admin/allproducts', this.admin);
+        const res = await this.axios.get("/admin/allproducts", this.admin);
         this.productsList = res.data;
       } catch (error) {
         console.log(error);
       }
     }
   },
-  
 };
 </script>
