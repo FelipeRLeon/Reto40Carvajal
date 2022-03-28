@@ -3,13 +3,13 @@ import pool from '../database/keys';
 const administrator = {};
 
 administrator.createProduct = async (req, res) => {
-    const {name, price, amount, info, img, category} = req.body;
+    const {p_name, p_price, p_amount, p_info, p_img, p_category} = req.body;
 
     try {
-        await pool.query('INSERT INTO product (p_name, p_price, p_amount, p_info, p_img, p_category) VALUES ($1, $2, $3, $4, $5, $6)', [name, price, amount, info, img, category]);
+        await pool.query('INSERT INTO product (p_name, p_price, p_amount, p_info, p_img, p_category) VALUES ($1, $2, $3, $4, $5, $6)', [p_name, p_price, p_amount, p_info, p_img, p_category]);
         res.status(200).json({
             message: 'Successful added product',
-            product: {name, price, amount, info, img, category}
+            product: {p_name, p_price, p_amount, p_info, p_img, p_category}
         });
 
     } catch(error){

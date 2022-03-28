@@ -4,7 +4,7 @@ import administrator from '../controllers/admin';
 
 const router = express.Router();
 
-router.post('/product', administrator.createProduct);
+router.post('/createproduct', administrator.createProduct);
 
 router.get('/product/:id_p', administrator.readProduct);
 

@@ -39,30 +39,38 @@
             <v-card-text>
                 <v-form ref="addForm" @submit.prevent="addProduct()">
                     <v-text-field
-                    prepend-icon = "mdi-biohazard"
+                    prepend-icon = "mdi-star-circle"
                     label="Name"
                     :rules="[(v) => !!v || 'Name is required']"
+                    v-model="productToAdd.p_name"
                     ></v-text-field>
                     <v-text-field
-                    prepend-icon = "mdi-biohazard"
-                    label="Price"
-                    :rules="[(v) => !!v || 'Price is required']"
-                    ></v-text-field>
-                    <v-text-field
-                    prepend-icon = "mdi-biohazard"
-                    label="Amount"
-                    :rules="[(v) => !!v || 'Amount is required']"
-                    ></v-text-field>
-                    <v-textarea
-                    prepend-icon = "mdi-bike"
-                    label="Info"
-                    :rules="[(v) => !!v || 'Info is required']"
-                    ></v-textarea>
-                    <v-text-field
-                    prepend-icon = "mdi-biohazard"
+                    prepend-icon = "mdi-shape"
                     label="Category"
                     :rules="[(v) => !!v || 'Category is required']"
+                    v-model="productToAdd.p_category"
                     ></v-text-field>
+                    <v-text-field
+                    prepend-icon = "mdi-cash"
+                    label="Price"
+                    type="number"
+                    :rules="[(v) => !!v || 'Price is required']"
+                    v-model="productToAdd.p_price"
+                    ></v-text-field>
+                    <v-text-field
+                    prepend-icon = "mdi-abacus"
+                    label="Amount"
+                    type="number"
+                    :rules="[(v) => !!v || 'Amount is required']"
+                    v-model="productToAdd.p_amount"
+                    ></v-text-field>
+                    <v-textarea
+                    prepend-icon = "mdi-information"
+                    label="Information"
+                    :rules="[(v) => !!v || 'Info is required']"
+                    v-model="productToAdd.p_info"
+                    ></v-textarea>
+                    
                     <v-btn block class="success mt-3" type="submit">add</v-btn>
                 </v-form>
             </v-card-text>
@@ -80,7 +88,7 @@ export default {
   data: () => ({
     admin: {},
     productsList: [],
-    productToAdd: {},
+    productToAdd: {p_img: "xxx"},
     add: false,
     show: false
   }),
@@ -89,7 +97,14 @@ export default {
           this.add=true;
           let valid = this.$refs.addForm.validate();
           if (valid) {
-              console.log("Added");
+              try {
+                  console.log(this.productToAdd);
+                  const res = await this.axios.post('/admin/createproduct', this.productToAdd);
+                  console.log(res.data);
+              } catch (error) {
+                  console.log(error);
+              }
+
           }
       }
 
